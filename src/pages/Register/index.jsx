@@ -2,16 +2,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField, Typography } from '@mui/material';
-import { Container } from '@mui/system';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '../../components/Box';
 import CustomButton from '../../components/Button';
 import CenterBox from '../../components/CenterBox';
 import Logo from '../../components/Logo';
-import { registerSchema } from '../../schemas/registerSchema';
-import { ContainerInput, FormBox } from './styles';
+import registerSchema from '../../schemas/registerSchema';
+import { ContainerButton, ContainerInput, FormBox } from '../../styles/styles';
+import ContainerRegister from './styles';
 
 export default function Register() {
+  const { navigate } = useNavigate(); // será usado para quando o usuário fizer login, ele será redirecionado para a página de produtos
+
   const {
     register,
     handleSubmit,
@@ -22,6 +25,7 @@ export default function Register() {
 
   const onSubmitFunction = data => {
     // aqui faremos de fato a requisição para o backend
+    navigate();
     console.log(data);
   };
 
@@ -30,18 +34,11 @@ export default function Register() {
       <CenterBox>
         <FormBox onSubmit={handleSubmit(onSubmitFunction)} component='form'>
           <Logo flexDirection='column' />
-          <Container
-            className='container-register'
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '24px',
-            }}
-          >
-            <Typography variant='h6' component='h6'>
+          <ContainerRegister>
+            <Typography variant='h6' component='h6' color='primary.light'>
               Cadastre-se
             </Typography>
-          </Container>
+          </ContainerRegister>
           <ContainerInput>
             <TextField
               id='storeName'
@@ -82,25 +79,16 @@ export default function Register() {
               helperText={errors.confirmPassword?.message}
             />
           </ContainerInput>
-          <Container
-            className='container-button'
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '20px',
-            }}
-          >
+          <ContainerButton>
             <Typography variant='body1' component='span'>
               Ao criar uma conta, você concorda com a nossa{' '}
-              <a className='redirect-link' href='#'>
+              <Link className='redirect-link' to='#'>
                 Política de Privacidade
-              </a>{' '}
+              </Link>{' '}
               e{' '}
-              <a className='redirect-link' href='#'>
+              <Link className='redirect-link' to='#'>
                 Termos de serviço
-              </a>
+              </Link>
             </Typography>
             <CustomButton btnType='submit'>
               <Typography variant='button' noWrap>
@@ -108,12 +96,12 @@ export default function Register() {
               </Typography>
             </CustomButton>
             <Typography variant='body1' component='span'>
-              Já tem uma conta?{' '}
-              <a className='redirect-link' href='/login'>
+              Já tem uma conta?
+              <Link className='redirect-link' to='/login'>
                 Fazer login
-              </a>
+              </Link>
             </Typography>
-          </Container>
+          </ContainerButton>
         </FormBox>
       </CenterBox>
     </Box>

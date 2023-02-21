@@ -1,8 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
-import GlobalStyles from './styles/GlobalStyles';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import Register from './pages/Register';
+import GlobalStyles from './styles/GlobalStyles';
 import standardTheme from './theme/standardTheme';
 
 export default function MainRoutes() {
@@ -12,6 +13,7 @@ export default function MainRoutes() {
       <Routes>
         <Route path='/home' element={<Home />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </ThemeProvider>
   );

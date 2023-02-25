@@ -112,10 +112,8 @@ export default function Register() {
                 Termos de serviço
               </Link>
             </Typography>
-            <CustomButton btnType='submit'>
-              <Typography variant='button' noWrap>
-                Criar conta
-              </Typography>
+            <CustomButton btnType='submit' variant='contained'>
+              <Typography noWrap>Criar conta</Typography>
             </CustomButton>
             <Typography variant='body1' component='span'>
               Já tem uma conta?

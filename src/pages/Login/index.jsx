@@ -3,20 +3,25 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import Box from '../../components/Box';
 import CustomButton from '../../components/Button';
 import CenterBox from '../../components/CenterBox';
 import Logo from '../../components/Logo';
 import loginSchema from '../../schemas/loginSchema';
+import axios from '../../services/api';
 import {
   ContainerButton,
   ContainerInput,
   ContainerWelcome,
   FormBox,
 } from '../../styles/styles';
+import { setItem } from '../../utils/storage';
+import useUser from '../../hooks/useUser';
 
 export default function Login() {
-  const { navigate } = useNavigate(); //  será usado para quando o usuário fizer login, ele será redirecionado para a página de produtos
+  const navigate = useNavigate();
+  const { setCurrentUser } = useUser();
   const {
     register,
     handleSubmit,
@@ -25,13 +30,33 @@ export default function Login() {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmitFunction = data => {
-    // aqui faremos de fato a requisição para o backend
-    navigate();
-    console.log(data);
+  const onSubmitFunction = async data => {
+    try {
+      const info = await axios.post('/login', {
+        email: data.email,
+        password: data.password,
+      });
+      setItem('token', info.data.token);
+      setCurrentUser({
+        id: info.data.user.id,
+        email: info.data.user.email,
+        name: info.data.user.name,
+      });
+      toast.success(`Hey, ${info.data.user.name}! Nice to have you back!`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 2500);
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
   return (
     <Box>
+      <ToastContainer />
       <CenterBox>
         <FormBox
           onSubmit={handleSubmit(onSubmitFunction)}
@@ -75,10 +100,8 @@ export default function Login() {
             />
           </ContainerInput>
           <ContainerButton>
-            <CustomButton btnType='submit'>
-              <Typography variant='button' noWrap>
-                Fazer Login
-              </Typography>
+            <CustomButton btnType='submit' variant='contained'>
+              <Typography noWrap>Fazer Login</Typography>
             </CustomButton>
             <Typography variant='body1' component='span'>
               Não possui conta ?

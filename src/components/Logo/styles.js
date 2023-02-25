@@ -7,7 +7,6 @@ const ImageBoxStyled = styled(Box)`
   align-items: center;
   justify-content: start;
   gap: 13px;
-
   img {
     height: 59px;
     width: 43px;

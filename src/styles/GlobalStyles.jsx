@@ -9,7 +9,7 @@ const Css = css`
   }
   body,
   html {
-    background: #e4dcdc;
+    background: #f4f4f4;
   }
   img {
     cursor: pointer;

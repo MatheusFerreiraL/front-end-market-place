@@ -1,14 +1,12 @@
 import { createContext } from 'react';
-import useUserProvider from '../../hooks/useUserProvider';
+import useUserProvider from '../hooks/useUserProvider';
 
-const UserContext = createContext();
+const UserContext = createContext({});
 
-function UserProvider({ props }) {
-  const userProvider = useUserProvider();
+function UserProvider({ children }) {
+  const values = useUserProvider();
 
-  return (
-    <UserContext.Provider value={userProvider}>{props}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 }
 
 export { UserContext, UserProvider };

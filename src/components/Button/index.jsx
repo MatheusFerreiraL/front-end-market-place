@@ -1,8 +1,12 @@
 import ButtonStyled from './styles';
 
-export default function CustomButton({ children, btnType }) {
+export default function CustomButton({ children, btnType, variant, bg }) {
   return (
-    <ButtonStyled variant='contained' type={btnType}>
+    <ButtonStyled
+      variant={variant}
+      type={btnType}
+      sx={{ backgroundColor: bg || 'primary.dark' }}
+    >
       {children}
     </ButtonStyled>
   );

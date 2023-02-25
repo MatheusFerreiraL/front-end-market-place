@@ -14,7 +14,7 @@ export const FormBox = styled(Box)`
       padding-right: 32px;
       padding-bottom: 32px;
       padding-left: 32px;
-      background-color: ${theme.palette.textColor.white};
+      background-color: ${theme.palette.grey[200]};
       position: relative;
       .MuiFormHelperText-root {
         color: ${theme.palette.error.main};

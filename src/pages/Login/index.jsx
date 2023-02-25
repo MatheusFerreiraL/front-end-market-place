@@ -17,9 +17,11 @@ import {
   FormBox,
 } from '../../styles/styles';
 import { setItem } from '../../utils/storage';
+import useUser from '../../hooks/useUser';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setCurrentUser } = useUser();
   const {
     register,
     handleSubmit,
@@ -35,11 +37,16 @@ export default function Login() {
         password: data.password,
       });
       setItem('token', info.data.token);
+      setCurrentUser({
+        id: info.data.user.id,
+        email: info.data.user.email,
+        name: info.data.user.name,
+      });
       toast.success(`Hey, ${info.data.user.name}! Nice to have you back!`, {
         position: toast.POSITION.TOP_RIGHT,
       });
       setTimeout(() => {
-        navigate('/home');
+        navigate('/');
       }, 2500);
     } catch (error) {
       toast.error(error.response.data.message, {
@@ -93,10 +100,8 @@ export default function Login() {
             />
           </ContainerInput>
           <ContainerButton>
-            <CustomButton btnType='submit'>
-              <Typography variant='button' noWrap>
-                Fazer Login
-              </Typography>
+            <CustomButton btnType='submit' variant='contained'>
+              <Typography noWrap>Fazer Login</Typography>
             </CustomButton>
             <Typography variant='body1' component='span'>
               Não possui conta ?

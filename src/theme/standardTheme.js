@@ -29,9 +29,6 @@ const standardTheme = createTheme({
     background: {
       default: '#F4F4F4',
     },
-    textColor: {
-      white: '#FCFCFC',
-    },
   },
   typography: {
     fontFamily: 'Public Sans, sans-serif',

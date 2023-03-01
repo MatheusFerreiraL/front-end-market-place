@@ -23,6 +23,22 @@ export const ContainerProductCardMedia = styled(Box)`
   `}
 `;
 
+export const ContainerPagination = styled(Box)`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  .display-page {
+    width: 3.5rem;
+    padding: auto;
+  }
+`;
+
+export const PageDisplay = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const CustomCard = styled(Card)`
   width: 382px;
   transition: 0.4s ease-in;

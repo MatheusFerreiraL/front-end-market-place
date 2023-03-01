@@ -16,6 +16,10 @@ export const HeaderStyled = styled(Box)`
       position: sticky;
       top: 0;
       z-index: 1;
+
+      .hidden {
+        display: none;
+      }
     `}
 `;
 

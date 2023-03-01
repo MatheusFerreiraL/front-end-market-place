@@ -7,11 +7,12 @@ import GlobalStyles from './styles/GlobalStyles';
 import standardTheme from './theme/standardTheme';
 import { getItem } from './utils/storage';
 import Header from './components/Header';
+import MyProducts from './pages/MyProducts';
+import Product from './pages/Product';
+import NotFound from './pages/NotFound';
 
 function ProtectedRoutes({ redirectTo }) {
   const isAuthenticated = getItem('token');
-
-  console.log(isAuthenticated);
 
   return isAuthenticated ? <Outlet /> : <Navigate to={redirectTo} />;
 }
@@ -24,13 +25,23 @@ export default function MainRoutes() {
         <Route path='/' element={<Header />}>
           <Route path='' element={<Home />} />
         </Route>
+        <Route
+          path='/product/detailed/:productId'
+          element={<Header variation />}
+        >
+          <Route path='' element={<Product />} />
+        </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route element={<ProtectedRoutes redirectTo='/' />}>
+        <Route element={<ProtectedRoutes redirectTo='/login' />}>
           <Route path='/' element={<Header />}>
             <Route path='' element={<Home />} />
           </Route>
+          <Route path='/myProducts' element={<Header variation />}>
+            <Route path='' element={<MyProducts />} />
+          </Route>
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </ThemeProvider>
   );

@@ -7,6 +7,10 @@ export default function useUserProvider() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [products, setProducts] = useState('');
   const [currentUser, setCurrentUser] = useState({});
+  const [myProducts, setMyProducts] = useState([]);
+  const [currentProduct, setCurrentProduct] = useState();
+  const [page, setPage] = useState(0);
+  const [productQuantity, setProductQuantity] = useState(0);
 
   return {
     storeName,
@@ -21,5 +25,13 @@ export default function useUserProvider() {
     setProducts,
     currentUser,
     setCurrentUser,
+    myProducts,
+    setMyProducts,
+    currentProduct,
+    setCurrentProduct,
+    page,
+    setPage,
+    productQuantity,
+    setProductQuantity,
   };
 }

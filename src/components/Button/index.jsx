@@ -8,6 +8,8 @@ export default function CustomButton({
   onClickFunc,
   bgHover,
   btnClassName,
+  startIcon,
+  borderColor,
 }) {
   return (
     <ButtonStyled
@@ -15,12 +17,14 @@ export default function CustomButton({
       type={btnType}
       sx={{
         backgroundColor: bg || 'primary.dark',
+        borderColor: borderColor || 'inherit',
         '&:hover': {
           background: bgHover,
           color: bgHover && 'inherit',
         },
       }}
       onClick={onClickFunc}
+      startIcon={startIcon}
       className={btnClassName}
     >
       {children}

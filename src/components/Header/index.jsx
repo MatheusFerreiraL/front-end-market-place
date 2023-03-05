@@ -51,7 +51,7 @@ export default function Header({ variation }) {
   };
 
   const handleVariation = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   useEffect(() => {

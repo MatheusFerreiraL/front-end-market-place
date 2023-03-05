@@ -11,6 +11,7 @@ export default function useUserProvider() {
   const [currentProduct, setCurrentProduct] = useState();
   const [page, setPage] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
+  const [suggestedProduct, setSuggestedProduct] = useState(false);
 
   return {
     storeName,
@@ -33,5 +34,7 @@ export default function useUserProvider() {
     setPage,
     productQuantity,
     setProductQuantity,
+    suggestedProduct,
+    setSuggestedProduct,
   };
 }

@@ -3,25 +3,40 @@ import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import PixOutlinedIcon from '@mui/icons-material/PixOutlined';
 import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined';
 import RemoveIcon from '@mui/icons-material/Remove';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { CardActionArea } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import CardContent from '@mui/material/CardContent';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+  // Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import CustomButton from '../../components/Button';
 import useUser from '../../hooks/useUser';
 import axios from '../../services/api';
 import {
+  ContainerProductCardMedia,
+  CustomCard,
+  ProductCardMedia,
+} from '../Home/styles';
+import {
+  ContainerButtons,
   ContainerIcons,
   ContainerQuantity,
   CustomContainer,
+  CustomDescriptionContainer,
   CustomProductContainer,
   ProductPicture,
   ShippingAdressField,
-  ContainerButtons,
 } from './styles';
 
 export default function Product() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { productId } = useParams();
   const {
@@ -29,16 +44,47 @@ export default function Product() {
     currentProduct,
     setProductQuantity,
     productQuantity,
+    setProducts,
+    products,
+    suggestedProduct,
+    setSuggestedProduct,
   } = useUser();
 
   const handleGetDetailedProduct = async () => {
     try {
       const { data } = await axios.get(`/product/detailed/${productId}`);
       setCurrentProduct(data);
-      console.log(currentProduct);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleGetSuggestedProducts = async () => {
+    const thisPage = searchParams.get('pageNumber')
+      ? parseInt(searchParams.get('pageNumber'), 10)
+      : 0;
+    const suggestionPage =
+      thisPage === 0
+        ? thisPage + Math.random() * 2
+        : thisPage - Math.random() * 2;
+    setSearchParams({
+      pageLimit: 4,
+      pageNumber: searchParams.get('pageNumber') || thisPage,
+    });
+    try {
+      const { data } = await axios.get(
+        `/home?pageLimit=${4}&pageNumber=${suggestionPage}`
+      );
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClickedProduct = product => {
+    navigate(`/product/detailed/${product.id}`);
+    setSuggestedProduct(!suggestedProduct);
+    setProductQuantity(0);
   };
 
   const handlePlusQuantity = () => {
@@ -60,7 +106,8 @@ export default function Product() {
 
   useEffect(() => {
     handleGetDetailedProduct();
-  }, [productQuantity]);
+    handleGetSuggestedProducts();
+  }, [productQuantity, suggestedProduct]);
   return (
     <CustomContainer>
       {currentProduct && (
@@ -164,17 +211,96 @@ export default function Product() {
                     size='small'
                     placeholder='Digite o CEP'
                     type='tel'
+                    autoComplete='off'
                   />
                 </div>
                 <ContainerButtons>
-                  <CustomButton>primeiro</CustomButton>
-                  <CustomButton>segundo</CustomButton>
+                  <CustomButton
+                    variant='outlined'
+                    bg='none'
+                    bgHover='none'
+                    borderColor='primary.dark'
+                    startIcon={
+                      <ShoppingCartOutlinedIcon style={{ color: '#B7005C' }} />
+                    }
+                  >
+                    <Typography
+                      variant='subtitle1'
+                      component='span'
+                      color='primary.dark'
+                    >
+                      Adicionar ao carrinho
+                    </Typography>
+                  </CustomButton>
+                  <CustomButton>
+                    <Typography
+                      variant='subtitle1'
+                      component='span'
+                      color='grey.200'
+                    >
+                      Comprar agora
+                    </Typography>
+                  </CustomButton>
                 </ContainerButtons>
               </div>
             </div>
           </CustomProductContainer>
+          <CustomDescriptionContainer>
+            <Typography variant='h5' component='h3'>
+              Descrição do produto
+            </Typography>
+            <Typography variant='subtitle1'>
+              {currentProduct.description}
+            </Typography>
+          </CustomDescriptionContainer>
         </>
       )}
+      <Typography variant='h5' className='suggested-products-title'>
+        Outros produtos
+      </Typography>
+      <ContainerProductCardMedia
+        className='container-product-card'
+        sx={{ margin: 0, flexWrap: 'nowrap' }}
+      >
+        {products &&
+          products.map(product => {
+            return (
+              <CustomCard
+                sx={{ width: 382 }}
+                key={product.id}
+                className='product-card-media'
+                onClick={() => handleClickedProduct(product)}
+              >
+                <CardActionArea>
+                  <ProductCardMedia
+                    component='img'
+                    id={product.id}
+                    height='342'
+                    image={`${product.imageUrl}`}
+                    alt={`Product Image ${product.title}`}
+                    sx={{ marginRight: 20 }}
+                  />
+                  <CardContent>
+                    <Typography variant='body2' color='secondary.dark'>
+                      {product.title}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      variant='h5'
+                      component='div'
+                      color='secondary.light'
+                    >
+                      {`${(product.price / 100).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })}`}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </CustomCard>
+            );
+          })}
+      </ContainerProductCardMedia>
     </CustomContainer>
   );
 }

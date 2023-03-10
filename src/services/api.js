@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { clearAll } from '../utils/storage';
 
 const axiosPrivate = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: 'https://api-market-place-cubos.herokuapp.com',
   timeout: 1000,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -16,7 +16,9 @@ axiosPrivate.interceptors.response.use(
         position: toast.POSITION.TOP_RIGHT,
       });
       setTimeout(() => {
-        window.location.replace('http://localhost:3000/login');
+        window.location.replace(
+          'https://api-market-place-cubos.herokuapp.com/login'
+        );
         clearAll();
       }, 2500);
     }

@@ -229,7 +229,7 @@ export default function Product() {
                       component='span'
                       color='primary.dark'
                     >
-                      Adicionar ao carrinho
+                      Add to bag
                     </Typography>
                   </CustomButton>
                   <CustomButton>
@@ -238,7 +238,7 @@ export default function Product() {
                       component='span'
                       color='grey.200'
                     >
-                      Comprar agora
+                      Buy now
                     </Typography>
                   </CustomButton>
                 </ContainerButtons>
@@ -247,7 +247,7 @@ export default function Product() {
           </CustomProductContainer>
           <CustomDescriptionContainer>
             <Typography variant='h5' component='h3'>
-              Descrição do produto
+              Product description
             </Typography>
             <Typography variant='subtitle1'>
               {currentProduct.description}
@@ -256,7 +256,7 @@ export default function Product() {
         </>
       )}
       <Typography variant='h5' className='suggested-products-title'>
-        Outros produtos
+        Other products
       </Typography>
       <ContainerProductCardMedia
         className='container-product-card'

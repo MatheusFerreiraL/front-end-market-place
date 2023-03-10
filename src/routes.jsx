@@ -10,6 +10,7 @@ import Header from './components/Header';
 import MyProducts from './pages/MyProducts';
 import Product from './pages/Product';
 import NotFound from './pages/NotFound';
+import NewProduct from './pages/NewProduct';
 
 function ProtectedRoutes({ redirectTo }) {
   const isAuthenticated = getItem('token');
@@ -27,7 +28,7 @@ export default function MainRoutes() {
         </Route>
         <Route
           path='/product/detailed/:productId'
-          element={<Header variation />}
+          element={<Header variation goBackThree />}
         >
           <Route path='' element={<Product />} />
         </Route>
@@ -39,6 +40,9 @@ export default function MainRoutes() {
           </Route>
           <Route path='/myProducts' element={<Header variation />}>
             <Route path='' element={<MyProducts />} />
+          </Route>
+          <Route path='/newProduct' element={<Header variation />}>
+            <Route path='' element={<NewProduct />} />
           </Route>
         </Route>
         <Route path='*' element={<NotFound />} />

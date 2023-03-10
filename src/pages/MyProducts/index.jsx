@@ -43,6 +43,11 @@ export default function MyProducts() {
     setSuggestedProduct(!suggestedProduct);
   };
 
+  const handleNewProductBtn = () => {
+    navigate('/newProduct');
+    setSuggestedProduct(!suggestedProduct);
+  };
+
   useEffect(() => {
     handleGetMyProducts();
   }, [suggestedProduct]);
@@ -50,9 +55,12 @@ export default function MyProducts() {
   return (
     <TableBoxContainer>
       <TopTableBox>
-        <Typography variant='h5'>Meus Produtos</Typography>
-        <CustomButton startIcon={<AddIcon style={{ color: '#ffffff' }} />}>
-          <Typography color='grey.200'>Criar anúncio</Typography>
+        <Typography variant='h5'>My Products</Typography>
+        <CustomButton
+          onClickFunc={handleNewProductBtn}
+          startIcon={<AddIcon style={{ color: '#ffffff' }} />}
+        >
+          <Typography color='grey.200'>New Product</Typography>
         </CustomButton>
       </TopTableBox>
       <TableHeader>

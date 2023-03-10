@@ -10,6 +10,7 @@ export default function CustomButton({
   btnClassName,
   startIcon,
   borderColor,
+  disabledBtn,
 }) {
   return (
     <ButtonStyled
@@ -26,6 +27,7 @@ export default function CustomButton({
       onClick={onClickFunc}
       startIcon={startIcon}
       className={btnClassName}
+      disabled={disabledBtn || false}
     >
       {children}
     </ButtonStyled>

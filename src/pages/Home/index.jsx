@@ -1,5 +1,5 @@
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { CardActionArea } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -10,11 +10,11 @@ import CustomButton from '../../components/Button';
 import useUser from '../../hooks/useUser';
 import axios from '../../services/api';
 import {
+  ContainerPagination,
   ContainerProductCardMedia,
   CustomCard,
-  ProductCardMedia,
-  ContainerPagination,
   PageDisplay,
+  ProductCardMedia,
 } from './styles';
 
 export default function Home() {
@@ -39,9 +39,6 @@ export default function Home() {
       );
       setProducts(data);
     } catch (error) {
-      /* 
-        CRIAR LÓGICA PARA, QUANDO FOR PARA UMA ṔAGINA QUE NÃO TEM MAIS PRODUTOS, IR PARA PÁGINA DE ERRO?
-      */
       console.log(error);
     }
   };
@@ -49,12 +46,6 @@ export default function Home() {
   const handleClickedProduct = product => {
     navigate(`product/detailed/${product.id}`);
   };
-
-  /* FAZER VALIDAÇÃO PARA:
-    -> CLICAR PARA VOLTAR NA PRIMEIRA PÁGINA : IR PARA ÚLTIMA PÁGINA;
-    -> CLICAR PARA AVANÇAR NA ÚLTIMA PÁGINA: IR PARA PRIMEIRA PÁGINA;
-  */
-
   const handleNextPage = () => {
     setSearchParams({
       pageLimit: 8,
@@ -96,7 +87,7 @@ export default function Home() {
                     id={product.id}
                     height='342'
                     image={`${product.imageUrl}`}
-                    alt={`Product Image ${product.name}`}
+                    alt={`Product Image ${product.title}`}
                   />
                   <CardContent>
                     <Typography variant='body2' color='secondary.dark'>

@@ -16,7 +16,7 @@ export const ContainerProductCardMedia = styled(Box)`
     justify-content: center;
     gap: 48px;
     flex-wrap: wrap;
-    margin-right: 117px;
+    margin-right: 97px;
     margin-bottom: 160px;
     margin-left: 117px;
     color: ${theme.palette.primary.main};

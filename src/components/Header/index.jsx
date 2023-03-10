@@ -14,7 +14,7 @@ import CustomButton from '../Button';
 import Logo from '../Logo';
 import { ContainerIcons, HeaderStyled } from './styles';
 
-export default function Header({ variation }) {
+export default function Header({ variation, goBackThree }) {
   const navigate = useNavigate();
   const { setCurrentUser, currentUser, page } = useUser();
   const [isAuth, setIsAuth] = useState(false);
@@ -42,8 +42,8 @@ export default function Header({ variation }) {
     navigate('/myProducts');
   };
 
-  const handleSell = () => {
-    navigate('/sell');
+  const handleNewProductBtn = () => {
+    navigate('newProduct');
   };
 
   const handleClickUser = () => {
@@ -51,7 +51,7 @@ export default function Header({ variation }) {
   };
 
   const handleVariation = () => {
-    navigate(-1);
+    return goBackThree ? navigate(-3) : navigate(-1);
   };
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Header({ variation }) {
           </CustomButton>
           <CustomButton
             variant='contained'
-            onClickFunc={handleSell}
+            onClickFunc={handleNewProductBtn}
             btnClassName={variation && 'hidden'}
           >
             <AttachMoneyOutlinedIcon fontSize='large' color='grey.200' />

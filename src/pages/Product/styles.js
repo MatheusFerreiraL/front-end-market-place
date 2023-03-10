@@ -17,6 +17,9 @@ export const CustomContainer = styled(Box)`
       .breadcrumbs {
         margin-bottom: 32px;
       }
+      .suggested-products-title {
+        margin-bottom: 32px;
+      }
     `}
 `;
 
@@ -26,6 +29,7 @@ export const CustomProductContainer = styled(Box)`
       display: flex;
       flex-direction: column;
       background: ${theme.palette.grey[200]};
+      border-radius: 6px;
       min-height: 512px;
       width: 1632px;
       margin-bottom: 40px;
@@ -94,6 +98,7 @@ export const ShippingAdressField = styled(TextField)`
 export const ContainerButtons = styled(Box)`
   display: flex;
   align-items: center;
+  gap: 32px;
   margin-top: 38px;
 `;
 
@@ -101,19 +106,13 @@ export const CustomDescriptionContainer = styled(Box)`
   ${({ theme }) =>
     css`
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
       background: ${theme.palette.grey[200]};
-      height: 112px;
-      width: 100%;
-      margin-bottom: 32px;
-      padding: 0 140px 0 150px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-
-      .hidden {
-        display: none;
-      }
+      gap: 16px;
+      border-radius: 6px;
+      height: 184px;
+      width: 1632px;
+      margin-bottom: 40px;
+      padding: 32px;
     `}
 `;

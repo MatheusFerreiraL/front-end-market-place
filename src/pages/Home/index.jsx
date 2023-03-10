@@ -1,0 +1,128 @@
+import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import { CardActionArea } from '@mui/material';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Box from '../../components/Box';
+import CustomButton from '../../components/Button';
+import useUser from '../../hooks/useUser';
+import axios from '../../services/api';
+import {
+  ContainerPagination,
+  ContainerProductCardMedia,
+  CustomCard,
+  PageDisplay,
+  ProductCardMedia,
+} from './styles';
+
+export default function Home() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { setProducts, products, page, setPage } = useUser();
+  const navigate = useNavigate();
+
+  const handleGetProducts = async () => {
+    const thisPage = searchParams.get('pageNumber')
+      ? parseInt(searchParams.get('pageNumber'), 10)
+      : 0;
+    setPage(thisPage);
+    setSearchParams({
+      pageLimit: 8,
+      pageNumber: searchParams.get('pageNumber') || thisPage,
+    });
+    try {
+      const { data } = await axios.get(
+        `/home?pageLimit=${searchParams.get('pageLimit') || 8}&pageNumber=${
+          searchParams.get('pageNumber') || thisPage
+        }`
+      );
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClickedProduct = product => {
+    navigate(`product/detailed/${product.id}`);
+  };
+  const handleNextPage = () => {
+    setSearchParams({
+      pageLimit: 8,
+      pageNumber: parseInt(searchParams.get('pageNumber'), 10) + 1 || page + 1,
+    });
+    setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page === 0) {
+      return;
+    }
+    setSearchParams({
+      pageLimit: 8,
+      pageNumber: parseInt(searchParams.get('pageNumber'), 10) - 1 || page - 1,
+    });
+    setPage(page - 1);
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, [page]);
+
+  return (
+    <Box>
+      <ContainerProductCardMedia className='container-product-card'>
+        {products &&
+          products.map(product => {
+            return (
+              <CustomCard
+                sx={{ width: 382 }}
+                key={product.id}
+                className='product-card-media'
+                onClick={() => handleClickedProduct(product)}
+              >
+                <CardActionArea>
+                  <ProductCardMedia
+                    component='img'
+                    id={product.id}
+                    height='342'
+                    image={`${product.imageUrl}`}
+                    alt={`Product Image ${product.title}`}
+                  />
+                  <CardContent>
+                    <Typography variant='body2' color='secondary.dark'>
+                      {product.title}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      variant='h5'
+                      component='div'
+                      color='secondary.light'
+                    >
+                      {`${(product.price / 100).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })}`}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </CustomCard>
+            );
+          })}
+      </ContainerProductCardMedia>
+      <ContainerPagination>
+        <CustomButton onClickFunc={handlePreviousPage} bg='none' bgHover='none'>
+          <ArrowBackIosOutlinedIcon />
+        </CustomButton>
+        <PageDisplay className='display-page' id='page-display'>
+          <Typography variant='h6' color='secondary.dark'>
+            {page + 1}
+          </Typography>
+        </PageDisplay>
+        <CustomButton onClickFunc={handleNextPage} bg='none' bgHover='none'>
+          <ArrowForwardIosOutlinedIcon />
+        </CustomButton>
+      </ContainerPagination>
+    </Box>
+  );
+}
